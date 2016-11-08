@@ -111,6 +111,7 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
      ln -sf ${target_dir}/current/sqlplus .
      #+END_SRC
 
+
 * Footnotes
 
 [fn:2] http://apple.stackexchange.com/questions/158117/os-x-10-10-1-etc-hosts-private-etc-hosts-file-is-being-ignored-and-not-resol
