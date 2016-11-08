@@ -48,12 +48,14 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
 
      #+END_EXAMPLE
   5. If you try a remote connection, you might get an =ORA-21561= error. The reason is the hostname is not mapped to =127.0.0.1= [fn:1]. Edit =/private/etc/hosts= via =sudo=. To check if the change is applied, you should use =dscacheutil= command, not =host= [fn:2].
+     - =/private/etc/hosts=
      #+BEGIN_EXAMPLE
        ## /private/etc/hosts
        ...
        127.0.0.1  <hostname>
        ...
      #+END_EXAMPLE
+     - with =host= command
      #+BEGIN_SRC sh :session install :var hostname="joseph" :exports both :results value org replace
        host ${hostname}
      #+END_SRC
@@ -63,10 +65,8 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
 
        Host joseph not found: 3(NXDOMAIN)
        #+END_SRC
-
-       Host joseph not found: 3(NXDOMAIN)
-
-     #+BEGIN_SRC sh :session install :results value org replace
+     - with =dscacheutil= command
+     #+BEGIN_SRC sh :session install :results value org replace :exports both
        dscacheutil -q host -a name ${hostname}
      #+END_SRC
 
@@ -77,7 +77,7 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
        #+END_SRC
 
   6. Test again
-     #+BEGIN_SRC sh :session install :var username="scott" :var password="tiger" :var hostname="localhost" :var port="1521" :var sid="orcl.ib.bunch" :results value org replace
+     #+BEGIN_SRC sh :session install :var username="scott" :var password="tiger" :var hostname="localhost" :var port="1521" :var sid="orcl.ib.bunch" :results value org replace :exports both
      ./sqlplus ${username}/${password}@${hostname}:${port}/${sid}
      -- in sqlplus
      exit
@@ -99,7 +99,6 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
      SQL> Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.1.0 - 64bit Production
      With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
      #+END_SRC
-
 
   7. Move the =instantclient_12_1= directory to a persistent location, append that directory to =PATH= environment variable.     cd ..
      #+BEGIN_SRC sh
