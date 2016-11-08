@@ -1,57 +1,207 @@
 <!DOCTYPE html>
 <html lang="en-us">
 <head>
-  <title>Install and Configure sqlplus on OS X - Meh....</title>
-  <meta charset="utf-8" />
-  <meta name="author" content="Jinha Kim" />
-  <meta name="description" content="" />
-  <meta name="keywords" content="" />
-
-  <link rel="alternate" title="RSS Feed" href="/rss.xml" type="application/rss+xml">
-  <link rel="stylesheet" href="/media/css/main.css" type="text/css">
-  <link rel="stylesheet" href="/media/css/posts.css" type="text/css">
+    <title>Install and Configure sqlplus on macOS - Meh....</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jinha Kim" />
+        <meta name="description" content="" />
+        <meta name="keywords" content="" />
+    <link rel="stylesheet" href="/media/css/style.css">
+    <link rel="stylesheet" href="/media/css/highlight.css">
+    <style type="text/css"></style>
 </head>
 
-  <body class="container">
-<header id="header">
-<body>
-    <nav class="navbar navbar-default navbar-fixed-top" style="opacity: .9" role="navigation">
-        <div class="container-fluid">
-<div class="navbar-header">
-            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                <span class="sr-only">Toggle navigation</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="/">Meh....</a>
-        </div>
-<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav navbar-right">
-                <li class="active"><a href="/">Blog</a></li>
-          <li><a href="https://github.com/goldbar80">GitHub</a></li>
-        </ul>
-</div>
-</div>
+    <nav class="main-nav">
+        <a href="/blog">Archive</a>
+        <a href="/tags">Tag</a>
+        <a href="/about/">About</a>
+        <a class="cta" href="https://github.com/goldbar80">GitHub</a>
     </nav>
-</body>
-</header>
 
-<section id="content" role="main">
-    <div id="outline-container-sec-" class="row" style="padding-top: 70px">
-        <div class="col-md-2"></div>
-            <h1>Install and Configure sqlplus on OS X</h1>
-            <p>
-hello
+<body class="container">
+  <div class="profile">
+    <section id="wrapper">
+            <a href="/">
+                <img id="avatar" class="2x" src="https://s.gravatar.com/avatar/1ac2d89c327782227329e0fe49ab406a?s=80" />
+            </a>
+            <h1>Jinha Kim</h1>
+    </section>
+  </div>
+<div>
+    <section id="wrapper">
+        <article class="post">
+            <header>
+                    <h1>Install and Configure sqlplus on macOS</h1>
+            </header>
+            <br />
+            <section id="post-body">
+                
+<div id="outline-container-org304397e" class="outline-2">
+<h2 id="org304397e">Why</h2>
+<div class="outline-text-2" id="text-org304397e">
+<p>
+In macOS, there is no trivial way to install <code>sqlplus</code>, which means there's no Homebrew package for it. You including me have to do it manually :$
+</p>
+</div>
+</div>
+
+<div id="outline-container-org7d2d7ed" class="outline-2">
+<h2 id="org7d2d7ed">Walkthrough</h2>
+<div class="outline-text-2" id="text-org7d2d7ed">
+<ol class="org-ol">
+<li>Download <code>oracle instance client for macOS</code> to <code>${tmp_dir}</code> from <a href="http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html">http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html</a>. <code>Instant Client Package - Basic Lite</code>, <code>Instant Client Package - SQL*Plus</code> would suffice to run <code>sqlplus</code>.</li>
+<li><p>
+Unzip the <code>.zip</code> files. All files are inflated into <code>${tmp_dir}/instantclient_12_1</code>.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #3a81c3;">echo</span> ${<span style="color: #715ab1;">tmp_dir</span>}
+<span style="color: #3a81c3;">cd</span> ${<span style="color: #715ab1;">tmp_dir</span>}
+unzip instantclient-sqlplus-macos.x64-12.1.0.2.0.zip
+unzip instantclient-basic-macos.x64-12.1.0.2.0.zip
+<span style="color: #3a81c3;">cd</span> instantclient_12_1
+</pre>
+</div></li>
+
+<li><p>
+Link all dylibs that end with <code>.12.1</code> to those without <code>.12.1</code>
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #3a81c3; font-weight: bold;">for</span> f<span style="color: #3a81c3; font-weight: bold;"> in</span> <span style="color: #ff00ff;">`ls *.12.1`</span>
+<span style="color: #3a81c3; font-weight: bold;">do</span>
+    ln -sf $<span style="color: #715ab1;">f</span> <span style="color: #ff00ff;">`basename $f .12.1`</span>
+<span style="color: #3a81c3; font-weight: bold;">done</span>
+</pre>
+</div></li>
+
+<li><p>
+Test to connect to a database instance.
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./sqlplus ${<span style="color: #715ab1;">username</span>}/${<span style="color: #715ab1;">password</span>}@${<span style="color: #715ab1;">hostname</span>}:${<span style="color: #715ab1;">port</span>}/${<span style="color: #715ab1;">sid</span>}
+</pre>
+</div>
+<pre class="example">
+SQL*Plus: Release 12.1.0.2.0 Production on Mon Nov 7 23:41:40 2016
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+ERROR:
+ORA-21561: OID generation failed
+</pre></li>
+<li><p>
+If you try a remote connection, you might get an <code>ORA-21561</code> error. The reason is the hostname is not mapped to <code>127.0.0.1</code> <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Edit <code>/private/etc/hosts</code> via <code>sudo</code>. To check if the change is applied, you should use <code>dscacheutil</code> command, not <code>host</code> <sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+</p>
+<pre class="example">
+## /private/etc/hosts
+...
+127.0.0.1  &lt;hostname&gt;
+...
+</pre>
+<div class="org-src-container">
+<pre class="src src-sh">host ${<span style="color: #715ab1;">hostname</span>}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-org">Host joseph not found: 3(NXDOMAIN)
+</pre>
+</div>
+
+<p>
+Host joseph not found: 3(NXDOMAIN)
 </p>
 
+<div class="org-src-container">
+<pre class="src src-sh">dscacheutil -q host -a name ${<span style="color: #715ab1;">hostname</span>}
+</pre>
+</div></li>
+
+<li><p>
+Test again
+</p>
+<div class="org-src-container">
+<pre class="src src-sh">./sqlplus ${<span style="color: #715ab1;">username</span>}/${<span style="color: #715ab1;">password</span>}@${<span style="color: #715ab1;">hostname</span>}:${<span style="color: #715ab1;">port</span>}/${<span style="color: #715ab1;">sid</span>}
+--<span style="color: #3a81c3; font-weight: bold;"> in</span> sqlplus
+<span style="color: #3a81c3; font-weight: bold;">exit</span>
+</pre>
+</div></li>
+</ol>
+
+
+<ol class="org-ol">
+<li><p>
+Move the <code>instantclient_12_1</code> directory to a persistent location, append that directory to <code>PATH</code> environment variable.     cd ..
+</p>
+<div class="org-src-container">
+<pre class="src src-sh"><span style="color: #3a81c3;">cd</span> ..
+</pre>
+</div></li>
+</ol>
+</div>
+</div>
+<div id="footnotes">
+<h2 class="footnotes">Footnotes: </h2>
+<div id="text-footnotes">
+
+<div class="footdef"><sup><a id="fn.1" class="footnum" href="#fnr.1">1</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://stackoverflow.com/questions/31338916/sqlplus-remote-connection-giving-ora-21561">http://stackoverflow.com/questions/31338916/sqlplus-remote-connection-giving-ora-21561</a>
+</p></div></div>
+
+<div class="footdef"><sup><a id="fn.2" class="footnum" href="#fnr.2">2</a></sup> <div class="footpara"><p class="footpara">
+<a href="http://apple.stackexchange.com/questions/158117/os-x-10-10-1-etc-hosts-private-etc-hosts-file-is-being-ignored-and-not-resol">http://apple.stackexchange.com/questions/158117/os-x-10-10-1-etc-hosts-private-etc-hosts-file-is-being-ignored-and-not-resol</a>
+</p></div></div>
+
+
+</div>
+</div>
+            </section>
+        </article>
+    </section>
+</div>
+
+    <div>
+    <section id="wrapper">
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-11-07</span>
+        <span title="tags" class="post-info"><a href="/tags/osx/">osx</a>, <a href="/tags/sqlplus/">sqlplus</a></span>
+      </div>
+      <br />
+      <br />
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/11/07/install-and-configure-sqlplus-on-os-x";
+          var disqus_url = "http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x";
+          var disqus_shortname = 'goldbar80github';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+      </section>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div align="center">
+      <footer id="footer">
+        <p class="small">
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:jinha &lt;dot&gt; kim &lt;at&gt; oracle &lt;dot&gt; com">Jinha Kim</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+        <br />
+      </footer>
+      </div>
+      </section>
     </div>
-</section>
-
-
-<footer id="footer">
-    <br />
-</footer>
 
   </body>
 </html>
