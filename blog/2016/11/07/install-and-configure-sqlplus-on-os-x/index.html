@@ -36,18 +36,18 @@
             <br />
             <section id="post-body">
                 
-<div id="outline-container-org20e7284" class="outline-2">
-<h2 id="org20e7284">Why</h2>
-<div class="outline-text-2" id="text-org20e7284">
+<div id="outline-container-org5080852" class="outline-2">
+<h2 id="org5080852">Why</h2>
+<div class="outline-text-2" id="text-org5080852">
 <p>
 In macOS, there is no trivial way to install <code>sqlplus</code>, which means there's no Homebrew package for it. You including me have to do it manually :$
 </p>
 </div>
 </div>
 
-<div id="outline-container-orge943865" class="outline-2">
-<h2 id="orge943865">Walkthrough</h2>
-<div class="outline-text-2" id="text-orge943865">
+<div id="outline-container-orgdf06afb" class="outline-2">
+<h2 id="orgdf06afb">Walkthrough</h2>
+<div class="outline-text-2" id="text-orgdf06afb">
 <ol class="org-ol">
 <li>Download <code>oracle instance client for macOS</code> to <code>${tmp_dir}</code> from <a href="http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html">http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html</a>. <code>Instant Client Package - Basic Lite</code>, <code>Instant Client Package - SQL*Plus</code> would suffice to run <code>sqlplus</code>.</li>
 <li><p>
@@ -91,12 +91,18 @@ ORA-21561: OID generation failed
 <li><p>
 If you try a remote connection, you might get an <code>ORA-21561</code> error. The reason is the hostname is not mapped to <code>127.0.0.1</code> <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Edit <code>/private/etc/hosts</code> via <code>sudo</code>. To check if the change is applied, you should use <code>dscacheutil</code> command, not <code>host</code> <sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
 </p>
+<ul class="org-ul">
+<li><code>/private/etc/hosts</code></li>
+</ul>
 <pre class="example">
 ## /private/etc/hosts
 ...
 127.0.0.1  &lt;hostname&gt;
 ...
 </pre>
+<ul class="org-ul">
+<li>with <code>host</code> command</li>
+</ul>
 <div class="org-src-container">
 <pre class="src src-sh">host ${<span style="color: #715ab1;">hostname</span>}
 </pre>
@@ -106,13 +112,17 @@ If you try a remote connection, you might get an <code>ORA-21561</code> error. T
 <pre class="src src-org">Host joseph not found: 3(NXDOMAIN)
 </pre>
 </div>
-
-<p>
-Host joseph not found: 3(NXDOMAIN)
-</p>
-
+<ul class="org-ul">
+<li>with <code>dscacheutil</code> command</li>
+</ul>
 <div class="org-src-container">
 <pre class="src src-sh">dscacheutil -q host -a name ${<span style="color: #715ab1;">hostname</span>}
+</pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-org">name: joseph
+ip_address: 127.0.0.1
 </pre>
 </div></li>
 
@@ -124,11 +134,24 @@ Test again
 --<span style="color: #3a81c3; font-weight: bold;"> in</span> sqlplus
 <span style="color: #3a81c3; font-weight: bold;">exit</span>
 </pre>
+</div>
+
+<div class="org-src-container">
+<pre class="src src-org">sh-3.2$ sh-3.2$ sh-3.2$ sh-3.2$
+SQL*Plus: Release 12.1.0.2.0 Production on Tue Nov 8 00:01:33 2016
+
+Copyright (c) 1982, 2016, Oracle.  All rights reserved.
+
+Last Successful login time: Tue Nov 08 2016 00:01:02 -08:00
+
+Connected to:
+Oracle Database 12c Enterprise Edition Release 12.1.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+SQL&gt; Disconnected from Oracle Database 12c Enterprise Edition Release 12.1.0.1.0 - 64bit Production
+With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
+</pre>
 </div></li>
-</ol>
 
-
-<ol class="org-ol">
 <li><p>
 Move the <code>instantclient_12_1</code> directory to a persistent location, append that directory to <code>PATH</code> environment variable.     cd ..
 </p>

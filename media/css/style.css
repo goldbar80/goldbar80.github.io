@@ -143,7 +143,7 @@ nav.main-nav a.cta {
 }
 
 #wrapper {
-  max-width: 600px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 60px 40px 100px 40px;
 }
@@ -190,7 +190,12 @@ ul 	{ margin:0; padding:0; }
 li	{ list-style-type:circle; list-style-position:inside; }
 
 ol li {
-  list-style-type: decimal;
+    list-style-type: decimal;
+}
+
+ol li ul li {
+    list-style-type: circle;
+    padding-left: 15px
 }
 
 /* Line Height */
