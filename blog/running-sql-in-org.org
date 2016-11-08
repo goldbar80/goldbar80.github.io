@@ -7,5 +7,62 @@
 #+LANGUAGE:    en
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 
-* Why
-  As a practice of literate programming (wikipedia:literate_programming)
+* tl;dr
+
+  As a practice of [[wikipedia:literate_programming][literate programming]], I would try org-mode for running SQL statement against Oracle Database. With the power of org-babel, you can run SQL queries and write the results back to the org-mode buffers.
+
+* Walkthrough
+
+  1. Install Oracle =instant client= in your machine. For macOS, you may follow the instruction in [[https://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x/][here]].
+
+  2. Add =sql= as a org-babel backend.
+
+     #+BEGIN_SRC emacs-lisp
+       (org-babel-do-load-languages
+        'org-babel-load-languages
+        '(
+          ;; ...
+          (sql . t)
+          ;; ...
+          )
+        )
+
+     #+END_SRC
+
+  3. Write a source block like below. Note that all arguments are mandatory. The oracle database support seems to be added in the late 2015 [fn:1], which tells you need to use the recent version of org (I use the latest (9.0) from the org repository).
+
+     #+BEGIN_SRC org
+       ,#+BEGIN_SRC sql :engine oracle :dbhost "<hostname>" :dbport "<port>" :dbuser "<user>" :dbpassword "<password>" :database "<sid>"
+       select count(*) from user_tables;
+       ,#+END_SRC
+     #+END_SRC
+
+     1. If you use the same configuration in a buffer, it's better to set connection information in the beginning of the file
+
+        #+BEGIN_SRC org
+          ,#+PROPERTY: header-args:sql :engine oracle :dbhost "<hostname>" :dbport "<port>" :dbuser "<user>" :dbpassword "<password>" :database "<sid>"
+        #+END_SRC
+
+  4. Then press =C-c C-c= on the source block. Then you will get the result in the org buffer.
+
+     #+BEGIN_SRC org
+       ,#+RESULTS:
+       | COUNT(*) |
+       |----------|
+       |       68 |
+     #+END_SRC
+
+  5. Here's the source block and the result of the html export.
+
+     #+BEGIN_SRC sql :engine oracle :dbhost "localhost" :dbport "1521" :dbuser "scott" :dbpassword "tiger" :database "orcl.ib.bunch" :exports none
+     select count(*) from user_tables;
+     #+END_SRC
+
+     #+RESULTS:
+     | COUNT(*) |
+     |----------|
+     |       68 |
+
+* Footnotes
+
+[fn:1] https://lists.gnu.org/archive/html/emacs-orgmode/2015-12/msg00485.html
