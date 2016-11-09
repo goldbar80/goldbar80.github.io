@@ -1,0 +1,43 @@
+#+TITLE:       Take a Screenshot and Add a link to it in Org
+#+AUTHOR:      Jinha Kim
+#+EMAIL:       jinha.kim@oracle.com
+#+DATE:        2016-11-09 Wed
+#+URI:         /blog/%y/%m/%d/get-screenshot-and-store-it-in-org
+#+TAGS:        org-mode, screenshot
+#+LANGUAGE:    en
+#+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
+
+Sometimes I want to take and store a screenshot, then add link to the screenshot in org buffer. I found a good solution that works under macOS and linux (X11) from [[http://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it][stackoverflow]]. I've slightly change the function to let it accept filename from a prompt. Paste the following code in a file of your =load-path=.
+
+#+BEGIN_SRC emacs-lisp
+(if (window-system)
+    (progn
+      (defun goldbar80/org-screenshot (basename)
+        "Take a screenshot into a time stamped unique-named file in the
+same directory as the org-buffer and insert a link to this file."
+        (interactive
+         (let ((default_name (format-time-string "%Y%m%d_%H%M%S")))
+           (list
+            (read-string (format "file name prefix (%s)): " default_name) nil nil default_name))))
+        (message basename)
+        (org-display-inline-images)
+        (setq filename
+              (concat
+               (file-name-base (buffer-file-name))
+               "/"
+               basename
+               ".png"))
+        (unless (file-exists-p (file-name-directory filename))
+          (make-directory (file-name-directory filename)))
+                                        ; take screenshot
+        (if (eq system-type 'darwin)
+            (call-process "screencapture" nil nil nil "-i" filename))
+        (if (eq system-type 'gnu/linux)
+            (call-process "import" nil nil nil filename))
+                                        ; insert into file if correctly taken
+        (if (file-exists-p filename)
+            (insert (concat "[[file:" filename "]]"))))
+      ))
+#+END_SRC
+
+Once you invoke  =M-x goldbar80/org-screenshot=, you are prompted to enter a file prefix. The default value is the time stamp. The original code adds a random string after the time stamp, but I dropped it as I assume you wouldn't call the function multiple times in one second :)
