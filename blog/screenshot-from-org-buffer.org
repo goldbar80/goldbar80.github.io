@@ -7,7 +7,7 @@
 #+LANGUAGE:    en
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 
-Sometimes I want to take and store a screenshot, then add link to the screenshot in org buffer. I found a good solution that works under macOS and linux (X11) from [[http://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it][stackoverflow]]. I've slightly change the function to let it accept filename from a prompt. Paste the following code in a file of your =load-path=.
+Sometimes I want to take and store a screenshot, then add link to the screenshot in org buffer. I found a awesome solution from [[http://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it][stackoverflow]] that works under macOS and Linux (X11). I've slightly changed the code to let it accept a =<basename>= from the mini-buffer prompt. Paste the following code in a file of your =load-path= and load it.
 
 #+BEGIN_SRC emacs-lisp
 (if (window-system)
@@ -40,4 +40,4 @@ same directory as the org-buffer and insert a link to this file."
       ))
 #+END_SRC
 
-Once you invoke  =M-x goldbar80/org-screenshot=, you are prompted to enter a file prefix. The default value is the time stamp. The original code adds a random string after the time stamp, but I dropped it as I assume you wouldn't call the function multiple times in one second :)
+Once you invoke  =M-x goldbar80/org-screenshot=, you are prompted to enter a =<basename>=. The default value is the timestamp when the function is called. The original code adds a random string after the timestamp, but I dropped it as I assume I wouldn't call the function multiple times in one second :) Then, capture your designated area using your pointing device. Finally, the screenshot will be stored in =<org buffer file basename>/<basename>.png= and a link to it will be inserted to your org buffer.
