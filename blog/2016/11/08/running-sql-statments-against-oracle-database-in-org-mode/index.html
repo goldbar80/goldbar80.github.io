@@ -34,18 +34,18 @@
             <br />
             <section id="post-body">
                 
-<div id="outline-container-org974aa66" class="outline-2">
-<h2 id="org974aa66">tl;dr</h2>
-<div class="outline-text-2" id="text-org974aa66">
+<div id="outline-container-org3763681" class="outline-2">
+<h2 id="org3763681">tl;dr</h2>
+<div class="outline-text-2" id="text-org3763681">
 <p>
 As a practice of <a href="https://en.wikipedia.org/wiki/literate_programming">literate programming[wikipedia]</a>, I would try org-mode for running SQL statement against Oracle Database. With the power of org-babel, you can run SQL queries and write the results back to the org-mode buffers.
 </p>
 </div>
 </div>
 
-<div id="outline-container-orgdd2af13" class="outline-2">
-<h2 id="orgdd2af13">Walkthrough</h2>
-<div class="outline-text-2" id="text-orgdd2af13">
+<div id="outline-container-org58062ef" class="outline-2">
+<h2 id="org58062ef">Walkthrough</h2>
+<div class="outline-text-2" id="text-org58062ef">
 <ol class="org-ol">
 <li>Install Oracle <code>instant client</code> in your machine. For macOS, you may follow the instruction in <a href="https://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x/">here</a>.</li>
 
@@ -57,9 +57,9 @@ Add <code>sql</code> as a org-babel backend.
 <pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span>org-babel-do-load-languages
  'org-babel-load-languages
  '<span style="color: #bc6ec5;">(</span>
-   <span style="color: #444155;">;; </span><span style="color: #2aa1ae; background-color: #292e34;">...</span>
+   <span style="color: #2aa1ae; background-color: #292e34;">;; </span><span style="color: #2aa1ae; background-color: #292e34;">...</span>
    <span style="color: #2d9574;">(</span>sql . t<span style="color: #2d9574;">)</span>
-   <span style="color: #444155;">;; </span><span style="color: #2aa1ae; background-color: #292e34;">...</span>
+   <span style="color: #2aa1ae; background-color: #292e34;">;; </span><span style="color: #2aa1ae; background-color: #292e34;">...</span>
    <span style="color: #bc6ec5;">)</span>
  <span style="color: #4f97d7;">)</span>
 </pre>

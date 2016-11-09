@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+    <title>Take a Screenshot and Add a link to it in Org - Meh....</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Jinha Kim" />
+    <link rel="stylesheet" href="/media/css/style.css">
+    <link rel="stylesheet" href="/media/css/highlight.css">
+    <style type="text/css"></style>
+</head>
+
+    <nav class="main-nav">
+        <a href="/blog">Archive</a>
+        <a href="/tags">Tag</a>
+        <a href="/about/">About</a>
+        <a class="cta" href="https://github.com/goldbar80">GitHub</a>
+    </nav>
+
+<body class="container">
+  <div class="profile">
+    <section id="wrapper">
+            <a href="/">
+                <img id="avatar" class="2x" src="https://s.gravatar.com/avatar/1ac2d89c327782227329e0fe49ab406a?s=80" />
+            </a>
+            <h1>Jinha Kim</h1>
+    </section>
+  </div>
+<div>
+    <section id="wrapper">
+        <article class="post">
+            <header>
+                    <h1>Take a Screenshot and Add a link to it in Org</h1>
+            </header>
+            <br />
+            <section id="post-body">
+                <p>
+Sometimes I want to take and store a screenshot, then add link to the screenshot in org buffer. I found a awesome solution from <a href="http://stackoverflow.com/questions/17435995/paste-an-image-on-clipboard-to-emacs-org-mode-file-without-saving-it">stackoverflow</a> that works under macOS and Linux (X11). I've slightly changed the code to let it accept a <code>&lt;basename&gt;</code> from the mini-buffer prompt. Paste the following code in a file of your <code>load-path</code> and load it.
+</p>
+
+<div class="org-src-container">
+<pre class="src src-emacs-lisp"><span style="color: #4f97d7;">(</span><span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #bc6ec5;">(</span>window-system<span style="color: #bc6ec5;">)</span>
+    <span style="color: #bc6ec5;">(</span><span style="color: #4f97d7; font-weight: bold;">progn</span>
+      <span style="color: #2d9574;">(</span><span style="color: #4f97d7; font-weight: bold;">defun</span> <span style="color: #bc6ec5; font-weight: bold;">goldbar80/org-screenshot</span> <span style="color: #67b11d;">(</span>basename<span style="color: #67b11d;">)</span>
+        <span style="color: #2aa1ae;">"Take a screenshot into a time stamped unique-named file in the</span>
+<span style="color: #2aa1ae;">same directory as the org-buffer and insert a link to this file."</span>
+        <span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">interactive</span>
+         <span style="color: #b1951d;">(</span><span style="color: #4f97d7; font-weight: bold;">let</span> <span style="color: #4f97d7;">(</span><span style="color: #bc6ec5;">(</span>default_name <span style="color: #2d9574;">(</span>format-time-string <span style="color: #2d9574;">"%Y%m%d_%H%M%S"</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+           <span style="color: #4f97d7;">(</span>list
+            <span style="color: #bc6ec5;">(</span>read-string <span style="color: #2d9574;">(</span>format <span style="color: #2d9574;">"file name prefix (%s)): "</span> default_name<span style="color: #2d9574;">)</span> nil nil default_name<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span><span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span>
+        <span style="color: #67b11d;">(</span>message basename<span style="color: #67b11d;">)</span>
+        <span style="color: #67b11d;">(</span>org-display-inline-images<span style="color: #67b11d;">)</span>
+        <span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">setq</span> filename
+              <span style="color: #b1951d;">(</span>concat
+               <span style="color: #4f97d7;">(</span>file-name-base <span style="color: #bc6ec5;">(</span>buffer-file-name<span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+               <span style="color: #2d9574;">"/"</span>
+               basename
+               <span style="color: #2d9574;">".png"</span><span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span>
+        <span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">unless</span> <span style="color: #b1951d;">(</span>file-exists-p <span style="color: #4f97d7;">(</span>file-name-directory filename<span style="color: #4f97d7;">)</span><span style="color: #b1951d;">)</span>
+          <span style="color: #b1951d;">(</span>make-directory <span style="color: #4f97d7;">(</span>file-name-directory filename<span style="color: #4f97d7;">)</span><span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span>
+                                        <span style="color: #2aa1ae; background-color: #292e34;">; </span><span style="color: #2aa1ae; background-color: #292e34;">take screenshot</span>
+        <span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #b1951d;">(</span>eq system-type 'darwin<span style="color: #b1951d;">)</span>
+            <span style="color: #b1951d;">(</span>call-process <span style="color: #2d9574;">"screencapture"</span> nil nil nil <span style="color: #2d9574;">"-i"</span> filename<span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span>
+        <span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #b1951d;">(</span>eq system-type 'gnu/linux<span style="color: #b1951d;">)</span>
+            <span style="color: #b1951d;">(</span>call-process <span style="color: #2d9574;">"import"</span> nil nil nil filename<span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span>
+                                        <span style="color: #2aa1ae; background-color: #292e34;">; </span><span style="color: #2aa1ae; background-color: #292e34;">insert into file if correctly taken</span>
+        <span style="color: #67b11d;">(</span><span style="color: #4f97d7; font-weight: bold;">if</span> <span style="color: #b1951d;">(</span>file-exists-p filename<span style="color: #b1951d;">)</span>
+            <span style="color: #b1951d;">(</span>insert <span style="color: #4f97d7;">(</span>concat <span style="color: #2d9574;">"[[file:"</span> filename <span style="color: #2d9574;">"]]"</span><span style="color: #4f97d7;">)</span><span style="color: #b1951d;">)</span><span style="color: #67b11d;">)</span><span style="color: #2d9574;">)</span>
+      <span style="color: #bc6ec5;">)</span><span style="color: #4f97d7;">)</span>
+</pre>
+</div>
+
+<p>
+Once you invoke  <code>M-x goldbar80/org-screenshot</code>, you are prompted to enter a <code>&lt;basename&gt;</code>. The default value is the timestamp when the function is called. The original code adds a random string after the timestamp, but I dropped it as I assume I wouldn't call the function multiple times in one second :) Then, capture your designated area using your pointing device. Finally, the screenshot will be stored in <code>&lt;org buffer file basename&gt;/&lt;basename&gt;.png</code> and a link to it will be inserted to your org buffer.
+</p>
+
+            </section>
+        </article>
+    </section>
+</div>
+
+    <div>
+    <section id="wrapper">
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-11-09</span>
+        <span title="tags" class="post-info"><a href="/tags/org-mode/">org-mode</a>, <a href="/tags/screenshot/">screenshot</a></span>
+      </div>
+      <br />
+      <br />
+      <section>
+        <h1>Comments</h1>
+        <div id="disqus_thread"></div>
+        <script>
+        /**
+         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
+         */
+        var disqus_config = function () {
+            this.page.url = "http://goldbar80.github.io/blog/2016/11/09/get-screenshot-and-store-it-in-org";  // Replace PAGE_URL with your page's canonical URL variable
+            this.page.identifier = "/blog/2016/11/09/get-screenshot-and-store-it-in-org"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+        };
+        (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+            var d = document, s = d.createElement('script');
+            s.src = 'https://goldbar80github.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+            s.setAttribute('data-timestamp', +new Date());
+            (d.head || d.body).appendChild(s);
+        })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+      </section>
+      <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
+      <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+      <script src="/media/js/main.js"></script>
+      <div align="center">
+      <footer id="footer">
+        <p class="small">
+          Copyright &copy; 2012 - <span id="footerYear"></span> <a href="mailto:jinha &lt;dot&gt; kim &lt;at&gt; oracle &lt;dot&gt; com">Jinha Kim</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/kelvinh/org-page" target="_blank">org-page</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+        <br />
+      </footer>
+      </div>
+      </section>
+    </div>
+
+  </body>
+</html>
