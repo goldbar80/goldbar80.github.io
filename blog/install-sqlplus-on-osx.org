@@ -48,6 +48,7 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
 
      #+END_EXAMPLE
   5. If you try a remote connection, you might get an =ORA-21561= error. The reason is the hostname is not mapped to =127.0.0.1= [fn:1]. Edit =/private/etc/hosts= via =sudo=. To check if the change is applied, you should use =dscacheutil= command, not =host= [fn:2].
+
      - =/private/etc/hosts=
        #+BEGIN_EXAMPLE
        ## /private/etc/hosts
