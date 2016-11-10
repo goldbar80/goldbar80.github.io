@@ -36,18 +36,18 @@
             <br />
             <section id="post-body">
                 
-<div id="outline-container-org035e16d" class="outline-2">
-<h2 id="org035e16d">Why</h2>
-<div class="outline-text-2" id="text-org035e16d">
+<div id="outline-container-orga9011a2" class="outline-2">
+<h2 id="orga9011a2">Why</h2>
+<div class="outline-text-2" id="text-orga9011a2">
 <p>
 In macOS, there is no trivial way to install <code>sqlplus</code>, which means there's no Homebrew package for it. You including me have to do it manually :$
 </p>
 </div>
 </div>
 
-<div id="outline-container-org33d1038" class="outline-2">
-<h2 id="org33d1038">Walkthrough</h2>
-<div class="outline-text-2" id="text-org33d1038">
+<div id="outline-container-orgd330cf6" class="outline-2">
+<h2 id="orgd330cf6">Walkthrough</h2>
+<div class="outline-text-2" id="text-orgd330cf6">
 <ol class="org-ol">
 <li>Download <code>oracle instance client for macOS</code> to <code>${tmp_dir}</code> from <a href="http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html">http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html</a>. <code>Instant Client Package - Basic</code>, <code>Instant Client Package - SQL*Plus</code> would suffice to run <code>sqlplus</code>.</li>
 <li><p>
@@ -200,25 +200,22 @@ ln -sf ${<span style="color: #7590db;">target_dir</span>}/current/sqlplus .
       <section>
         <h1>Comments</h1>
         <div id="disqus_thread"></div>
-        <script>
-        /**
-         *  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
-         *  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables
-         */
-        var disqus_config = function () {
-            this.page.url = "http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x";  // Replace PAGE_URL with your page's canonical URL variable
-            this.page.identifier = "/blog/2016/11/07/install-and-configure-sqlplus-on-os-x"; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
-        };
-        (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
-            var d = document, s = d.createElement('script');
-            s.src = 'https://goldbar80github.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
-            s.setAttribute('data-timestamp', +new Date());
-            (d.head || d.body).appendChild(s);
-        })();
+        <script type="text/javascript">
+          //var disqus_developer = 1;
+          var disqus_identifier = "/blog/2016/11/07/install-and-configure-sqlplus-on-os-x";
+          var disqus_url = "http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x";
+          var disqus_shortname = 'goldbar80github';
+          /* * * DON'T EDIT BELOW THIS LINE * * */
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
         </script>
-        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
       </section>
-      <script src="https://code.jquery.com/jquery-latest.min.js"></script>
+      <script src="http://code.jquery.com/jquery-latest.min.js"></script>
       <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r298/prettify.js"></script>
       <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
       <script src="/media/js/main.js"></script>

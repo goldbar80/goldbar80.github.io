@@ -198,6 +198,10 @@ ol li ul li {
     padding-left: 15px
 }
 
+ol li ol li {
+    padding-left: 15px
+}
+
 /* Line Height */
 #post-body, p { line-height:1.7; }
 

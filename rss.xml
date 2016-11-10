@@ -4,10 +4,17 @@
     <title>Meh....</title>
     <link>http://goldbar80.github.io</link>
     <description>Emacs, Programming, and ....</description>
-    <pubDate>Wed, 09 Nov 2016 13:09:52 PST</pubDate>
-    <lastBuildDate>Wed, 09 Nov 2016 13:09:52 PST</lastBuildDate>
+    <pubDate>Wed, 09 Nov 2016 16:38:56 PST</pubDate>
+    <lastBuildDate>Wed, 09 Nov 2016 16:38:56 PST</lastBuildDate>
     <docs>http://www.rssboard.org/rss-specification</docs>
     <generator>Org-page static site generator (https://github.com/kelvinh/org-page)</generator>
+    <item>
+      <title>Install and Configure sqlplus on macOS</title>
+      <link>http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x</link>
+      <description><![CDATA[]]></description>
+      <pubDate>2016-11-09</pubDate>
+      <guid>http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x</guid>
+    </item>
     <item>
       <title>Take a Screenshot and Add a link to it in Org</title>
       <link>http://goldbar80.github.io/blog/2016/11/09/get-screenshot-and-store-it-in-org</link>
@@ -68,13 +75,6 @@ Once you invoke  <code>M-x goldbar80/org-screenshot</code>, you are prompted to 
       <guid>http://goldbar80.github.io/blog/2016/11/09/get-screenshot-and-store-it-in-org</guid>
     </item>
     <item>
-      <title>Install and Configure sqlplus on macOS</title>
-      <link>http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x</link>
-      <description><![CDATA[]]></description>
-      <pubDate>2016-11-08</pubDate>
-      <guid>http://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x</guid>
-    </item>
-    <item>
       <title>Running SQL Statments against Oracle database in Org-mode</title>
       <link>http://goldbar80.github.io/blog/2016/11/08/running-sql-statments-against-oracle-database-in-org-mode</link>
       <description><![CDATA[<div>
@@ -86,18 +86,18 @@ Once you invoke  <code>M-x goldbar80/org-screenshot</code>, you are prompted to 
             <br />
             <section id="post-body">
                 
-<div id="outline-container-org3763681" class="outline-2">
-<h2 id="org3763681">tl;dr</h2>
-<div class="outline-text-2" id="text-org3763681">
+<div id="outline-container-org247a999" class="outline-2">
+<h2 id="org247a999">tl;dr</h2>
+<div class="outline-text-2" id="text-org247a999">
 <p>
 As a practice of <a href="https://en.wikipedia.org/wiki/literate_programming">literate programming[wikipedia]</a>, I would try org-mode for running SQL statement against Oracle Database. With the power of org-babel, you can run SQL queries and write the results back to the org-mode buffers.
 </p>
 </div>
 </div>
 
-<div id="outline-container-org58062ef" class="outline-2">
-<h2 id="org58062ef">Walkthrough</h2>
-<div class="outline-text-2" id="text-org58062ef">
+<div id="outline-container-orgf1bffa8" class="outline-2">
+<h2 id="orgf1bffa8">Walkthrough</h2>
+<div class="outline-text-2" id="text-orgf1bffa8">
 <ol class="org-ol">
 <li>Install Oracle <code>instant client</code> in your machine. For macOS, you may follow the instruction in <a href="https://goldbar80.github.io/blog/2016/11/07/install-and-configure-sqlplus-on-os-x/">here</a>.</li>
 
