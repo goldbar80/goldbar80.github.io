@@ -36,18 +36,18 @@
             <br />
             <section id="post-body">
                 
-<div id="outline-container-org0fab60d" class="outline-2">
-<h2 id="org0fab60d">Why</h2>
-<div class="outline-text-2" id="text-org0fab60d">
+<div id="outline-container-org7eed3dd" class="outline-2">
+<h2 id="org7eed3dd">Why</h2>
+<div class="outline-text-2" id="text-org7eed3dd">
 <p>
 In macOS, there is no trivial way to install <code>sqlplus</code>, which means there's no Homebrew package for it. You including me have to do it manually :$
 </p>
 </div>
 </div>
 
-<div id="outline-container-org7edb7c6" class="outline-2">
-<h2 id="org7edb7c6">Walkthrough</h2>
-<div class="outline-text-2" id="text-org7edb7c6">
+<div id="outline-container-org438da63" class="outline-2">
+<h2 id="org438da63">Walkthrough</h2>
+<div class="outline-text-2" id="text-org438da63">
 <ol class="org-ol">
 <li>Download <code>oracle instance client for macOS</code> to <code>${tmp_dir}</code> from <a href="http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html">http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html</a>. <code>Instant Client Package - Basic</code>, <code>Instant Client Package - SQL*Plus</code> would suffice to run <code>sqlplus</code>.</li>
 <li><p>
@@ -89,6 +89,7 @@ ERROR:
 ORA-21561: OID generation failed
 </pre></li>
 <li>If you try a remote connection, you might get an <code>ORA-21561</code> error. The reason is the hostname is not mapped to <code>127.0.0.1</code> <sup><a id="fnr.1" class="footref" href="#fn.1">1</a></sup>. Edit <code>/private/etc/hosts</code> via <code>sudo</code>. To check if the change is applied, you should use <code>dscacheutil</code> command, not <code>host</code> <sup><a id="fnr.2" class="footref" href="#fn.2">2</a></sup>.
+
 <ul class="org-ul">
 <li><p>
 <code>/private/etc/hosts</code>
