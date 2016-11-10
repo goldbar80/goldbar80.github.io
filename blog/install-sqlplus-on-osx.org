@@ -6,6 +6,7 @@
 #+KEYWORDS:
 #+TAGS:        osx, sqlplus
 #+LANGUAGE:    en
+#+PROPERTY: header-args :cache yes
 #+OPTIONS:     H:3 num:nil toc:nil \n:nil ::t |:t ^:nil -:nil f:t *:t <:t
 #+DESCRIPTION:
 
@@ -26,7 +27,7 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
      #+END_SRC
 
   3. Link all dylibs that end with =.12.1= to those without =.12.1=
-     #+BEGIN_SRC sh :session install :results value org :results silent
+     #+BEGIN_SRC sh :session install :results silent
        for f in `ls *.12.1`
        do
            ln -sf $f `basename $f .12.1`
@@ -77,7 +78,7 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
        #+END_SRC
 
   6. Test again
-     #+BEGIN_SRC sh :session install :var username="scott" :var password="tiger" :var hostname="localhost" :var port="1521" :var sid="orcl.ib.bunch" :results value org replace
+     #+BEGIN_SRC sh :session install :var username="scott" :var password="tiger" :var hostname="localhost" :var port="1521" :var sid="orcl.ib.bunch" :results value org replace :exports both
      ./sqlplus ${username}/${password}@${hostname}:${port}/${sid}
      -- below is sql commands
      exit
