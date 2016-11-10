@@ -16,7 +16,7 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
 
 * Walkthrough
 
-  1. Download =oracle instance client for macOS= to =${tmp_dir}= from http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html. =Instant Client Package - Basic Lite=, =Instant Client Package - SQL*Plus= would suffice to run =sqlplus=.
+  1. Download =oracle instance client for macOS= to =${tmp_dir}= from http://www.oracle.com/technetwork/topics/intel-macsoft-096467.html. =Instant Client Package - Basic=, =Instant Client Package - SQL*Plus= would suffice to run =sqlplus=.
   2. Unzip the =.zip= files. All files are inflated into =${tmp_dir}/instantclient_12_1=.
      #+BEGIN_SRC sh :var tmp_dir=(concat (getenv "HOME") "/tmp/sqlplus") :session install :results silent
        echo ${tmp_dir}
@@ -55,43 +55,44 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
        127.0.0.1  <hostname>
        ...
      #+END_EXAMPLE
-     - with =host= command
-     #+BEGIN_SRC sh :session install :var hostname="joseph" :exports both :results value org replace
+     - =host= command
+     #+BEGIN_SRC sh :session install :var hostname=(shell-command-to-string "hostname") :exports both :results value org replace
        host ${hostname}
      #+END_SRC
 
-       #+RESULTS:
+       #+RESULTS[4215473b6d5d0b2843f1a618ada2df071cbf0223]:
        #+BEGIN_SRC org
 
-       Host joseph not found: 3(NXDOMAIN)
+       sh-3.2$ Host someone not found: 3(NXDOMAIN)
        #+END_SRC
-     - with =dscacheutil= command
-     #+BEGIN_SRC sh :session install :results value org replace :exports both
+
+     - =dscacheutil= command
+     #+BEGIN_SRC sh :session install :results value org replace
        dscacheutil -q host -a name ${hostname}
      #+END_SRC
 
-       #+RESULTS:
+       #+RESULTS[39e0599351fb485a8b5982bf88a933d6907fad70]:
        #+BEGIN_SRC org
-       name: joseph
+       name: someone
        ip_address: 127.0.0.1
        #+END_SRC
 
   6. Test again
      #+BEGIN_SRC sh :session install :var username="scott" :var password="tiger" :var hostname="localhost" :var port="1521" :var sid="orcl.ib.bunch" :results value org replace :exports both
      ./sqlplus ${username}/${password}@${hostname}:${port}/${sid}
-     -- in sqlplus
+     -- below is sql commands
      exit
      #+END_SRC
 
-     #+RESULTS:
+     #+RESULTS[4ade9511334148494dc384e1e779d48d4248db6c]:
      #+BEGIN_SRC org
 
      sh-3.2$ sh-3.2$ sh-3.2$ sh-3.2$
-     SQL*Plus: Release 12.1.0.2.0 Production on Tue Nov 8 00:01:33 2016
+     SQL*Plus: Release 12.1.0.2.0 Production on Tue Nov 8 09:41:59 2016
 
      Copyright (c) 1982, 2016, Oracle.  All rights reserved.
 
-     Last Successful login time: Tue Nov 08 2016 00:01:02 -08:00
+     Last Successful login time: Tue Nov 08 2016 06:51:34 -08:00
 
      Connected to:
      Oracle Database 12c Enterprise Edition Release 12.1.0.1.0 - 64bit Production
@@ -100,11 +101,17 @@ In macOS, there is no trivial way to install =sqlplus=, which means there's no H
      With the Partitioning, OLAP, Advanced Analytics and Real Application Testing options
      #+END_SRC
 
-  7. Move the =instantclient_12_1= directory to a persistent location, append that directory to =PATH= environment variable.     cd ..
-     #+BEGIN_SRC sh
-     cd ..
+  7. Move the =instantclient_12_1= directory to a persistent location. Append that directory to =PATH= environment variable or make a link to =sqlplus= in one of =PATH= variable directories (e.g. =/usr/local/bin=).
 
+     #+BEGIN_SRC shell :session install :exports none :var target_dir="/usr/local/legacy/oracle_instantclient" :var version="12.1" :results silent
+     mkdir -p ${target_dir}/${version}
+     cp -a ${tmp_dir}/instantclient_12_1/* ${target_dir}/${version}
+     cd ${target_dir}
+     ln -sf ${version} current
+     cd /usr/local/bin
+     ln -sf ${target_dir}/current/sqlplus .
      #+END_SRC
+
 
 * Footnotes
 
